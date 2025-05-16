@@ -12,7 +12,7 @@ widgetNameIntr = function() {
          * и потом выбрать рандомно и поменять стили
          * @type {string}
          */
-        let div1_status = 'status_id_24374824';
+        const div1_status = 'status_id_24374824';
         const div1 = document.getElementById(div1_status);
         if (div1) {
             const childs=div1.children;
