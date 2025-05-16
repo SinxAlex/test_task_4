@@ -21,7 +21,7 @@ widgetNameIntr = function() {
         $.each(divs, function(key, elementDiv) {
 
             const inputInsideDiv = elementDiv.querySelector('input');
-            const value = inputInsideDiv;
+            const value = inputInsideDiv.value;
 
             if (!value) return;
             const type = checkInputType(value);
