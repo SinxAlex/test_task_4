@@ -9,7 +9,7 @@ widgetNameIntr = function() {
     {
 
         const url_phone="http://letmegooglethat.com/?q=";
-        const url_email="https://yandex.ru/search/?text";
+        const url_email="https://yandex.ru/search/?text=";
         //самое просто обратиться к родительской форме
         // далее уже обратьстья к дочерней меню формы
 
