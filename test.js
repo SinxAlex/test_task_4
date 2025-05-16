@@ -1,30 +1,36 @@
 widgetNameIntr = function() {
     var widget = this;
     this.code = null;
-
     this.yourVar = {};
     this.yourFunc = function() {};
-
     // вызывается один раз при инициализации виджета, в этой функции мы вешаем события на $(document)
     this.bind_actions = function(){
-
-        const div = document.getElementById("status_id_42497374");
-        div.style.color = "blue";
-        div.style.backgroundColor = "yellow";
-        div.style.fontSize = "24px";
-        div.style.padding = "10px";
     };
-
-
     this.render = function() {
-        console.log('render');
-    };
+        /** думал может сделать фильтр для находждения всех
+         * div  маске status_id_******
+         * и потом выбрать рандомно и поменять стили
+         * @type {string}
+         */
+        let div1_status = 'status_id_24374824';
+        const div1 = document.getElementById(div1_status);
+        if (div1) {
+            const childs=div1.children;
+            console.log(childs);
+            for (let i = 0; i < childs.length; i++) {
+                const child = childs[i];
+                child.style.color = "black";
+                child.style.backgroundColor ="blue";
+            }
 
+        } else {
+            console.error("Элемент с ID '" + div1_status + "' не найден");
+        }
+    };
     // вызывается один раз при инициализации виджета, в этой функции мы загружаем нужные данные, стили и.т.п
     this.init = function(){
 
     };
-
     // метод загрузчик, не изменяется
     this.bootstrap = function(code) {
         widget.code = code;
@@ -42,7 +48,5 @@ widgetNameIntr = function() {
         }
     }
 };
-// создание экземпляра виджета и регистрация в системных переменных Yadra
-// widget-name - ИД и widgetNameIntr - уникальные названия виджета
 yadroWidget.widgets['widget-name'] = new widgetNameIntr();
 yadroWidget.widgets['widget-name'].bootstrap('widget-name');
