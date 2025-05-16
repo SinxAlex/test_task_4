@@ -1,52 +1,81 @@
+
 widgetNameIntr = function() {
     var widget = this;
     this.code = null;
-    this.yourVar = {};
-    this.yourFunc = function() {};
-    // вызывается один раз при инициализации виджета, в этой функции мы вешаем события на $(document)
-    this.bind_actions = function(){
-    };
-    this.render = function() {
-        /** думал может сделать фильтр для находждения всех
-         * div  маске status_id_******
-         * и потом выбрать рандомно и поменять стили
-         * @type {string}
-         */
-        const div1_status = 'status_id_24374824';
-        const div1 = document.getElementById(div1_status);
-        if (div1) {
-            const childs=div1.children;
-            console.log(childs);
-            for (let i = 0; i < childs.length; i++) {
-                const child = childs[i];
-                child.style.color = "black";
-                child.style.backgroundColor ="blue";
-            }
 
-        } else {
-            console.error("Элемент с ID '" + div1_status + "' не найден");
+
+    this.config = {
+        targetId: 'status_id_24374824', в
+        divSelector: 'div[id^="div_"]',
+        styles: {
+            color: "black",
+            backgroundColor: "blue"
         }
     };
-    // вызывается один раз при инициализации виджета, в этой функции мы загружаем нужные данные, стили и.т.п
-    this.init = function(){
+
+    // Инициализация событий
+    this.bind_actions = function() {
 
     };
-    // метод загрузчик, не изменяется
+
+    // Применение стилей к элементу (вынесено в отдельный метод)
+    this.applyStyles = function(element) {
+        if (!element) return;
+
+        Object.assign(element.style, widget.config.styles);
+
+        Array.from(element.children).forEach(child => {
+            Object.assign(child.style, widget.config.styles);
+        });
+    };
+
+
+    this.findTargetElements = function() {
+        return {
+            mainElement: document.getElementById(widget.config.targetId),
+            allDivs: document.querySelectorAll(widget.config.divSelector)
+        };
+    };
+
+
+    this.render = function() {
+        const {mainElement, allDivs} = widget.findTargetElements();
+
+        console.log('Найдены элементы:', {
+            allDivs: allDivs,
+            mainElement: mainElement
+        });
+
+        if (mainElement) {
+            widget.applyStyles(mainElement);
+        } else {
+            console.error(`Элемент с ID '${widget.config.targetId}' не найден`);
+        }
+    };
+
+    // Инициализация (теперь с реальной логикой)
+    this.init = function() {
+        // Здесь можно загружать данные, стили и т.д.
+        console.log('Виджет инициализирован');
+    };
+
+    // Загрузчик (без изменений)
     this.bootstrap = function(code) {
         widget.code = code;
-        // если frontend_status не задан, то считаем что виджет выключен
-        // var status = yadroFunctions.getSettings(code).frontend_status;
-        var status = 1;
+        var status = 1; // В реальном коде получаем из yadroFunctions.getSettings(code)
 
         if (status) {
             widget.init();
             widget.render();
             widget.bind_actions();
-            $(document).on('widgets:load', function () {
+
+            $(document).on('widgets:load', function() {
                 widget.render();
             });
         }
-    }
+    };
 };
+
+// Инициализация виджета
 yadroWidget.widgets['widget-name'] = new widgetNameIntr();
 yadroWidget.widgets['widget-name'].bootstrap('widget-name');
