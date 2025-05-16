@@ -3,7 +3,6 @@ widgetNameIntr = function() {
     var widget = this;
     this.code = null;
 
-
     this.config = {
         targetId: 'status_id_24374824', в
         divSelector: 'div[id^="div_"]',
