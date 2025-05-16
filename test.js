@@ -53,17 +53,17 @@ widgetNameIntr = function() {
                 }
 
                 const newItem = `
-                                                                        <div class="tips-item js-tips-item js-cf-actions-item" data-type="search_test" data-id="search_id" data-forced="" data-value="" data-suggestion-type="">       
-                                                                            <span class="tips-icon-container">
-                                                                                <span class="tips-icon tips-svg-icon">
-                                                                                    <svg class="svg-icon svg-common--copy-dims">
-                                                                                        <use xlink:href="#common--filter-search"></use>
-                                                                                    </svg>
-                                                                                </span>
-                                                                            </span>
-                                                                            Нагуглить
-                                                                        </div>
-                                                                    `;
+                                 <div class="tips-item js-tips-item js-cf-actions-item" data-type="search_test" data-id="search_id" data-forced="" data-value="" data-suggestion-type="">       
+                                    <span class="tips-icon-container">
+                                    <span class="tips-icon tips-svg-icon">
+                                          <svg class="svg-icon svg-common--copy-dims">
+                                              <use xlink:href="#common--filter-search"></use>
+                                                </svg>
+                                                </span>
+                                                 </span>
+                                                Нагуглить
+                                            </div>
+                                         `;
 
                 console.log("тут:"+value);
                 itemsDiv.insertAdjacentHTML('beforeend', newItem);
