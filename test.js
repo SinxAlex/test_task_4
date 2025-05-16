@@ -9,59 +9,74 @@ widgetNameIntr = function() {
     {
 
         const url_phone="http://letmegooglethat.com/?q=";
-        const url_email="https://yandex.ru/search/?q";
+        const url_email="https://yandex.ru/search/?text";
         //самое просто обратиться к родительской форме
         // далее уже обратьстья к дочерней меню формы
 
 
-        const divs = document.querySelectorAll('[data-pei-code="phone"], [data-pei-code="email"]');
+        const inputs = document.querySelectorAll('[data-pei-code="email"],[data-pei-code="phone"]');
+        console.log(inputs);
         let  uri_test;
         let  selectorType;
-        //console.log(divs);
-        $.each(divs, function(key, elementDiv) {
 
-            const inputInsideDiv = elementDiv.querySelector('input');
-            const value = inputInsideDiv.value;
-
-            if (!value) return;
-            const type = checkInputType(value);
-            if (!type) {
-                console.log('Неизвестный тип ввода:', value);
+        $.each(inputs, function(key, elementInput) {
+            const inputIns = elementInput.querySelector('input');
+            if (!inputIns) {
+                // console.log('Input не найден внутри элемента:', elementInput);
                 return;
             }
-            const uri_test = type === "phone" ? url_phone : url_email;
-            const selectorType = type;
+            const value = inputIns.value.trim(); // Берём текущее значение
+            if (value) {
 
-            const childrenMenu = elementDiv.querySelector('.js-tip-holder');
-            if (!childrenMenu) {
-                console.log('Элемент .js-tip-holder не найден в форме');
-                return;
+                const type = checkInputType(value);
+                if (!type) {
+                    //   console.log('Неизвестный тип ввода:', value);
+                    return;
+                }
+
+                const uri_test = type === "phone" ? url_phone : url_email;
+                const selectorType = type;
+                const parentDiv = inputIns.closest(`[data-pei-code="${selectorType}"]`);
+                console.log(parentDiv);
+
+
+                const childrenMenu = parentDiv.querySelector('.js-tip-holder');
+                if (!childrenMenu) {
+                    console.log('Элемент .js-tip-holder не найден в форме');
+                    return;
+                }
+
+                const itemsDiv = childrenMenu.querySelector('.tips__inner');
+                if (!itemsDiv) {
+                    console.log('Элемент .tips__inner не найден');
+                    return;
+                }
+
+                const newItem = `
+                                                                        <div class="tips-item js-tips-item js-cf-actions-item" data-type="search_test" data-id="search_id" data-forced="" data-value="" data-suggestion-type="">       
+                                                                            <span class="tips-icon-container">
+                                                                                <span class="tips-icon tips-svg-icon">
+                                                                                    <svg class="svg-icon svg-common--copy-dims">
+                                                                                        <use xlink:href="#common--filter-search"></use>
+                                                                                    </svg>
+                                                                                </span>
+                                                                            </span>
+                                                                            Нагуглить
+                                                                        </div>
+                                                                    `;
+
+                console.log("тут:"+value);
+                itemsDiv.insertAdjacentHTML('beforeend', newItem);
+                const addedItem = itemsDiv.lastElementChild;
+                addedItem.addEventListener('click', function() {
+                    window.open(`${uri_test}${value}`, '_blank');
+                });
+
+
+
+
             }
 
-            const itemsDiv = childrenMenu.querySelector('.tips__inner');
-            if (!itemsDiv) {
-                console.log('Элемент .tips__inner не найден');
-                return;
-            }
-
-            const newItem = `
-                                    <div class="tips-item js-tips-item js-cf-actions-item" data-type="search_test" data-id="search_id" data-forced="" data-value="" data-suggestion-type="">       
-                                        <span class="tips-icon-container">
-                                            <span class="tips-icon tips-svg-icon">
-                                                <svg class="svg-icon svg-common--copy-dims">
-                                                    <use xlink:href="#common--filter-search"></use>
-                                                </svg>
-                                            </span>
-                                        </span>
-                                        Нагуглить
-                                    </div>
-                                `;
-
-            itemsDiv.insertAdjacentHTML('beforeend', newItem);
-            const addedItem = itemsDiv.lastElementChild;
-            addedItem.addEventListener('click', function() {
-                window.open(`${uri_test}${encodeURIComponent(value)}`, '_blank');
-            });
 
         });
 
